@@ -7,17 +7,28 @@
 
 ## Use-case
 Неавторизованный пользователь
+
 <img src="https://github.com/el1ljah/cp_db/blob/main/docs/img/use-case-01-1.png">
 
 Неавторизованный пользователь
+
 <img src="https://github.com/el1ljah/cp_db/blob/main/docs/img/use-case-02-1.png">
 
 Админитстратор
+
 <img src="https://github.com/el1ljah/cp_db/blob/main/docs/img/use-case-03-1.png">
 
 ## BPMN диаграмма бизнес процессов
+<img src="https://github.com/el1ljah/cp_db/blob/main/docs/img/bpmn.png">
 
 ## Пользовательские сценарии 
+1. Авторизоваться
+2. Просмотреть товары и добавить в корзину
+3. Найти товар по бренду и добавить в корзину
+4. Просмотреть корзину и удалить товар
+5. Посмотреть цену товаров в корзине и совершить заказ
+6. Редактировать информацию своего аккаунта
+7. Выйти из аккаунта
 
 ## Диаграмма БД
 <img src="https://github.com/el1ljah/cp_db/blob/main/docs/img/db-diagram-1.png">
