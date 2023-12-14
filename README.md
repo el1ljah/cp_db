@@ -19,6 +19,7 @@
 <img src="https://github.com/el1ljah/cp_db/blob/main/docs/img/use-case-03-1.png">
 
 ## BPMN диаграмма бизнес процессов
+<img src="https://github.com/el1ljah/cp_db/blob/main/docs/img/bpmn.png">
 
 ## Пользовательские сценарии 
 1. Авторизоваться
