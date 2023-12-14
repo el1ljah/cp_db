@@ -1,0 +1,573 @@
+openapi: "3.0.3"
+
+info:
+  title: "Clothes store 👚"
+  version: "0.0.1"
+
+servers:
+  - url: http://localhost:8080/api/v1
+    description: API V1
+  - url: http://localhost:8080/api/v2
+    description: API V2
+  
+tags:
+  - name: "authentication"
+  - name: "item"
+  - name: "basket"
+  - name: "brand"
+  - name: "order"
+
+paths:
+  /logIn:
+    post:
+      tags:
+        - "authentication"
+      summary: "Log in"
+      operationId: "logIn"
+      parameters:
+        - name: "nickname"
+          in: "query"
+          description: "Customer login"
+          schema:
+            type: "string"
+        - name: "password"
+          in: "query"
+          description: "Customer password"
+          schema:
+            type: "string"
+      responses:
+        "200":
+          description: "Login success"
+        "400":
+          description: "Bad Request"
+        "401":
+          description: "Incorrect password"
+        "404":
+          description: "Not Found"
+        "500":
+          description: "Server error"
+  /register:
+    post:
+      tags:
+        - "authentication"
+      summary: "Registration"
+      operationId: "Registration"
+      parameters:
+        - name: "nickname"
+          in: "query"
+          description: "Customer login"
+          schema:
+            type: "string"
+        - name: "password"
+          in: "query"
+          description: "Customer password"
+          schema:
+            type: "string"
+        - name: "name"
+          in: "query"
+          description: "Your name"
+          schema:
+            type: "string"
+        - name: "sex"
+          in: "query"
+          description: "Male, Female, Other"
+          schema:
+            type: "string"
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              "$ref": "#/components/schemas/User"
+        required: true
+      responses:
+        "200":
+          description: "Login success"
+        "400":
+          description: "Login already in use"
+        "404":
+          description: "Not Found"
+        "500":
+          description: "Server error"
+
+  /brand:
+    put:
+      tags:
+        - brand
+      summary: Add new brand
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              "$ref": "#/components/schemas/Brand"
+        required: true
+      responses:
+        '200':
+          description: "Success"
+        "400":
+          description: "Already added"
+        '404':
+          description: "Not Found"
+        '500':
+          description: "Server Error"
+  /brand/{BRAND_ID}:
+    get:
+      tags:
+        - brand
+      summary: Get an information about one brand
+      parameters:
+        - name: BRAND_ID
+          in: path
+          description: ''
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Brand'
+        '404':
+          description: Not Found
+        '500':
+          description: Server Error
+    post:
+      tags:
+        - brand
+      summary: Update brand
+      parameters:
+        - name: BRAND_ID
+          in: path
+          description: 'ID of updated brand'
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              "$ref": "#/components/schemas/Brand"
+        required: true
+      responses:
+        '200':
+          description: "Success"
+        "400":
+          description: "Invalid ID"
+        '404':
+          description: "Not Found"
+        '500':
+          description: "Server Error"
+    delete:
+      tags:
+        - brand
+      summary: Delete brand
+      parameters:
+        - name: BRAND_ID
+          in: path
+          description: 'ID of updated brand'
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: "Success"
+        "400":
+          description: "Invalid ID"
+        '404':
+          description: "Not Found"
+        '500':
+          description: "Server Error"
+       
+  /items:
+    get:
+      tags:
+        - item
+      summary: Get all items
+      parameters:
+        - name: min_pirce
+          in: query
+          description: ''
+          required: false
+          schema:
+            type: integer
+        - name: max_price
+          in: query
+          description: ''
+          required: false
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items: 
+                  $ref: '#/components/schemas/Item'
+        '404':
+          description: Not Found
+        '500':
+          description: Server Error
+  /item:
+    put:
+      tags:
+        - item
+      summary: Add new item
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              "$ref": "#/components/schemas/Item"
+        required: true
+      responses:
+        '200':
+          description: "Success"
+        "400":
+          description: "Already added"
+        '404':
+          description: "Not Found"
+        '500':
+          description: "Server Error"
+  /item/{ITEM_ID}:
+    get:
+      tags:
+        - item
+      summary: Get an information about item
+      parameters:
+        - name: ITEM_ID
+          in: path
+          description: ''
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
+        '404':
+          description: Not Found
+        '500':
+          description: Server Error
+    post:
+      tags:
+        - item
+      summary: Update item
+      parameters:
+        - name: ITEM_ID
+          in: path
+          description: 'ID of updated item'
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              "$ref": "#/components/schemas/Item"
+        required: true
+      responses:
+        '200':
+          description: "Success"
+        "400":
+          description: "Invalid ID"
+        '404':
+          description: "Not Found"
+        '500':
+          description: "Server Error"
+    patch:
+      tags:
+        - item
+      summary: Update items price
+      parameters:
+        - name: ITEM_ID
+          in: "path"
+          description: "Id of the item"
+          required: true
+          schema:
+            type: "integer"
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              $ref: '#/components/schemas/PatchItem'
+      responses:
+        "200":
+          description: "Price updated"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
+        "400":
+          description: "Bad Request"
+        '401':
+          description: "Unauthorized"
+        '403':
+          description: "Permision denied"
+        "404":
+          description: "Not Found"
+    delete:
+      tags:
+        - item
+      summary: Delete item
+      parameters:
+        - name: ITEM_ID
+          in: path
+          description: 'ID of deleted item'
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: "Success"
+        "400":
+          description: "Invalid ID"
+        '404':
+          description: "Not Found"
+        '500':
+          description: "Server Error"
+       
+  /order/{ORDER_ID}:
+    get:
+      tags:
+        - order
+      summary: Get an information about order
+      parameters:
+        - name: ORDER_ID
+          in: path
+          description: ''
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        '404':
+          description: Not Found
+        '500':
+          description: Server Error
+    post:
+      tags:
+        - order
+      summary: Update order
+      parameters:
+        - name: ORDER_ID
+          in: path
+          description: 'ID of order'
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              "$ref": "#/components/schemas/Order"
+        required: true
+      responses:
+        '200':
+          description: "Success"
+        "400":
+          description: "Invalid ID"
+        '404':
+          description: "Not Found"
+        '500':
+          description: "Server Error"
+  /orders/my:
+    get:
+      tags:
+        - order
+      summary: Get my orders
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items: 
+                  $ref: '#/components/schemas/Order'
+        '404':
+          description: Not Found
+        '500':
+          description: Server Error
+  /orders:
+    get:
+      tags:
+        - order
+      summary: Get all orders in store
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items: 
+                  $ref: '#/components/schemas/Order'
+        '404':
+          description: Not Found
+        '500':
+          description: Server Error
+          
+  /basket/add/{ITEM_ID}:
+    post:
+      tags:
+        - basket
+      summary: Add item to basket
+      parameters:
+        - name: ITEM_ID
+          in: path
+          description: 'ID of item'
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: "Success"
+        "400":
+          description: "Invalid ID"
+        '404':
+          description: "Not Found"
+        '500':
+          description: "Server Error"
+  /basket/dec/{ITEM_ID}:
+    post:
+      tags:
+        - basket
+      summary: Remove item from basket
+      parameters:
+        - name: ITEM_ID
+          in: path
+          description: 'ID of item'
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: "Success"
+        "400":
+          description: "Invalid ID"
+        '404':
+          description: "Not Found"
+        '500':
+          description: "Server Error"
+  /basket:
+    get:
+      tags:
+        - basket
+      summary: Get all items in basket
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items: 
+                  $ref: '#/components/schemas/Item'
+        '404':
+          description: Not Found
+        '500':
+          description: Server Error
+    post:
+      tags:
+        - basket
+      summary: Commit purchase
+      responses:
+        '200':
+          description: "Success"
+        "400":
+          description: "Backet is empty"
+        '404':
+          description: "Not Found"
+        '500':
+          description: "Server Error"
+       
+components:
+  schemas:
+    PatchItem:
+      type: object
+      properties:
+        price:
+          type: integer
+          description: Price of item
+    User:
+      type: "object"
+      properties:
+        user_id:
+          type: "integer"
+        user_login:
+          type: "string"
+          example: "yomama69"
+        user_password:
+          type: "string"
+          example: "superpass111"
+        user_name:
+          type: "string"
+          example: "Jhon"
+        user_sex:
+          type: "string"
+          example: "male"
+        user_role:
+          type: "string"
+          example: "customer"
+
+    Order:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+        commit_date:
+          type: "string"
+          format: date
+        user_id:
+          type: "integer"
+        price:
+          type: "integer"
+        current_status:
+          type: "string"
+
+    Item:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+        category:
+          type: "string"
+        size:
+          type: "integer"
+        sex:
+          type: "string"
+        image_id:
+          type: "integer"
+          description: "ID of item on external service"
+        brand_id:
+          type: "integer"
+        is_available:
+          type: "boolean"
+          
+    Brand:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+        brand_name:
+          type: "string"
+          example: "Nike"
+        founding_year:
+          type: "integer"
+          example: "1964"
+        logo_id:
+          type: "integer"
+          description: "ID of logo on external service"
+        brand_owner:
+          type: "string"
+          example: "Phil Knight"
