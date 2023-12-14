@@ -40,3 +40,9 @@
 <img src="https://github.com/el1ljah/cp_db/blob/main/docs/img/components.jpg">
 
 ## Будущей веб-интрефейс
+<img src="https://github.com/el1ljah/cp_db/blob/main/docs/img/int_main.png">
+<img src="https://github.com/el1ljah/cp_db/blob/main/docs/img/int_login.png">
+<img src="https://github.com/el1ljah/cp_db/blob/main/docs/img/int_register.png">
+<img src="https://github.com/el1ljah/cp_db/blob/main/docs/img/int_item.png">
+<img src="https://github.com/el1ljah/cp_db/blob/main/docs/img/int_backet.png">
+
