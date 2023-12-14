@@ -14,7 +14,7 @@
 <img src="https://github.com/el1ljah/cp_db/blob/main/docs/img/er-1.png">
 
 ## Диаграмма БД
-<img src="https://github.com/el1ljah/cp_db/blob/main/docs/img/er-1.png">
+<img src="https://github.com/el1ljah/cp_db/blob/main/docs/img/db-diagram-1.png">
 
 ## Компонентная диаграмма системы
 
