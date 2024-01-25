@@ -161,7 +161,7 @@ paths:
           description: "Server Error"
     delete:
       tags:
-        - brand
+        - brands
       summary: Delete brand
       parameters:
         - name: BRAND_ID
@@ -384,7 +384,7 @@ paths:
           description: Not Found
         '500':
           description: Server Error
-  /order:
+  /orders:
     get:
       tags:
         - orders
