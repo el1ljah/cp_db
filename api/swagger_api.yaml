@@ -12,10 +12,10 @@ servers:
   
 tags:
   - name: "authentication"
-  - name: "item"
+  - name: "items"
   - name: "basket"
-  - name: "brand"
-  - name: "order"
+  - name: "brands"
+  - name: "orders"
 
 paths:
   /logIn:
@@ -69,6 +69,7 @@ paths:
           schema:
             type: "string"
         - name: "sex"
+        
           in: "query"
           description: "Male, Female, Other"
           schema:
@@ -89,16 +90,16 @@ paths:
         "500":
           description: "Server error"
 
-  /brand:
+  /brands:
     put:
       tags:
-        - brand
+        - brands
       summary: Add new brand
       requestBody:
         content:
           "application/json":
             schema:
-              "$ref": "#/components/schemas/Brand"
+              "$ref": "#/components/schemas/Brands"
         required: true
       responses:
         '200':
@@ -109,10 +110,10 @@ paths:
           description: "Not Found"
         '500':
           description: "Server Error"
-  /brand/{BRAND_ID}:
+  /brands/{BRAND_ID}:
     get:
       tags:
-        - brand
+        - brands
       summary: Get an information about one brand
       parameters:
         - name: BRAND_ID
@@ -127,14 +128,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Brand'
+                $ref: '#/components/schemas/Brands'
         '404':
           description: Not Found
         '500':
           description: Server Error
     post:
       tags:
-        - brand
+        - brands
       summary: Update brand
       parameters:
         - name: BRAND_ID
@@ -147,7 +148,7 @@ paths:
         content:
           "application/json":
             schema:
-              "$ref": "#/components/schemas/Brand"
+              "$ref": "#/components/schemas/Brands"
         required: true
       responses:
         '200':
@@ -182,19 +183,19 @@ paths:
   /items:
     get:
       tags:
-        - item
+        - items
       summary: Get all items
       parameters:
-        - name: min_pirce
+        - name: page_size
           in: query
-          description: ''
-          required: false
+          description: 'Page size'
+          required: true
           schema:
             type: integer
-        - name: max_price
+        - name: page_num
           in: query
-          description: ''
-          required: false
+          description: 'Number of page'
+          required: true
           schema:
             type: integer
       responses:
@@ -205,35 +206,36 @@ paths:
               schema:
                 type: array
                 items: 
-                  $ref: '#/components/schemas/Item'
+                  $ref: '#/components/schemas/Items'
+        '400':
+          description: Bad requset
         '404':
           description: Not Found
         '500':
           description: Server Error
-  /item:
     put:
       tags:
-        - item
+        - items
       summary: Add new item
       requestBody:
         content:
           "application/json":
             schema:
-              "$ref": "#/components/schemas/Item"
+              "$ref": "#/components/schemas/Items"
         required: true
       responses:
         '200':
-          description: "Success"
-        "400":
-          description: "Already added"
+          description: Success
+        '400':
+          description: Bad requset
         '404':
-          description: "Not Found"
+          description: Not Found
         '500':
-          description: "Server Error"
-  /item/{ITEM_ID}:
+          description: Server Error
+  /items/{ITEM_ID}:
     get:
       tags:
-        - item
+        - items
       summary: Get an information about item
       parameters:
         - name: ITEM_ID
@@ -248,14 +250,16 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Item'
+                $ref: '#/components/schemas/Items'
+        '400':
+          description: Bad requset
         '404':
           description: Not Found
         '500':
           description: Server Error
     post:
       tags:
-        - item
+        - items
       summary: Update item
       parameters:
         - name: ITEM_ID
@@ -268,20 +272,22 @@ paths:
         content:
           "application/json":
             schema:
-              "$ref": "#/components/schemas/Item"
+              "$ref": "#/components/schemas/Items"
         required: true
       responses:
         '200':
-          description: "Success"
-        "400":
-          description: "Invalid ID"
+          description: Success
+        '400':
+          description: Bad requset
         '404':
-          description: "Not Found"
+          description: Not Found
+        '406':
+          description: Not Acceptable
         '500':
-          description: "Server Error"
+          description: Server Error
     patch:
       tags:
-        - item
+        - items
       summary: Update items price
       parameters:
         - name: ITEM_ID
@@ -297,22 +303,20 @@ paths:
               $ref: '#/components/schemas/PatchItem'
       responses:
         "200":
-          description: "Price updated"
+          description: Price updated
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Item'
-        "400":
-          description: "Bad Request"
-        '401':
-          description: "Unauthorized"
-        '403':
-          description: "Permision denied"
-        "404":
-          description: "Not Found"
+                $ref: '#/components/schemas/Items'
+        '400':
+          description: Bad requset
+        '404':
+          description: Not Found
+        '500':
+          description: Server Error
     delete:
       tags:
-        - item
+        - items
       summary: Delete item
       parameters:
         - name: ITEM_ID
@@ -322,19 +326,17 @@ paths:
           schema:
             type: integer
       responses:
-        '200':
-          description: "Success"
-        "400":
-          description: "Invalid ID"
+        '400':
+          description: Bad requset
         '404':
-          description: "Not Found"
+          description: Not Found
         '500':
-          description: "Server Error"
+          description: Server Error
        
-  /order/{ORDER_ID}:
+  /orders/{ORDER_ID}:
     get:
       tags:
-        - order
+        - orders
       summary: Get an information about order
       parameters:
         - name: ORDER_ID
@@ -349,14 +351,16 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Order'
+                $ref: '#/components/schemas/Orders'
+        '400':
+          description: Bad requset
         '404':
           description: Not Found
         '500':
           description: Server Error
     post:
       tags:
-        - order
+        - orders
       summary: Update order
       parameters:
         - name: ORDER_ID
@@ -369,40 +373,33 @@ paths:
         content:
           "application/json":
             schema:
-              "$ref": "#/components/schemas/Order"
+              "$ref": "#/components/schemas/Orders"
         required: true
       responses:
         '200':
-          description: "Success"
-        "400":
-          description: "Invalid ID"
-        '404':
-          description: "Not Found"
-        '500':
-          description: "Server Error"
-  /orders/my:
-    get:
-      tags:
-        - order
-      summary: Get my orders
-      responses:
-        '200':
           description: Success
-          content:
-            application/json:
-              schema:
-                type: array
-                items: 
-                  $ref: '#/components/schemas/Order'
+        '400':
+          description: Bad requset
         '404':
           description: Not Found
         '500':
           description: Server Error
-  /orders:
+  /order:
     get:
       tags:
-        - order
-      summary: Get all orders in store
+        - orders
+      summary: Get all/user`s/my orders
+      parameters:
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+        - name: user_id
+          in: query
+          required: false
+          schema:
+            type: integer
       responses:
         '200':
           description: Success
@@ -411,13 +408,54 @@ paths:
               schema:
                 type: array
                 items: 
-                  $ref: '#/components/schemas/Order'
+                  $ref: '#/components/schemas/Orders'
+        '401':
+          description: Unauthorized 
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Server Error
+    post:   
+      tags:
+        - orders
+      summary: Commit purchase
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Orders'
+        '401':
+          description: Unauthorized 
         '404':
           description: Not Found
         '500':
           description: Server Error
           
-  /basket/add/{ITEM_ID}:
+  /basket/{ITEM_ID}: 
+    delete:
+      tags:
+        - basket
+      summary: Remove item from basket
+      parameters:
+        - name: ITEM_ID
+          in: path
+          description: 'ID of item'
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Success
+        '401':
+          description: Unauthorized 
+        '404':
+          description: Not Found
+        '500':
+          description: Server Error
     post:
       tags:
         - basket
@@ -431,34 +469,40 @@ paths:
             type: integer
       responses:
         '200':
-          description: "Success"
-        "400":
-          description: "Invalid ID"
+          description: Success
+        '401':
+          description: Unauthorized 
         '404':
-          description: "Not Found"
+          description: Not Found
         '500':
-          description: "Server Error"
-  /basket/dec/{ITEM_ID}:
-    post:
+          description: Server Error
+    patch:
       tags:
         - basket
-      summary: Remove item from basket
+      summary: Update items qnt in basket
       parameters:
         - name: ITEM_ID
-          in: path
-          description: 'ID of item'
+          in: "path"
+          description: "Id of the item"
           required: true
           schema:
-            type: integer
+            type: "integer"
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              $ref: '#/components/schemas/PatchBasket'
       responses:
-        '200':
-          description: "Success"
-        "400":
-          description: "Invalid ID"
+        "200":
+          description: Success
+        '401':
+          description: Unauthorized 
+        '400':
+          description: Bad requset
         '404':
-          description: "Not Found"
+          description: Not Found
         '500':
-          description: "Server Error"
+          description: Server Error
   /basket:
     get:
       tags:
@@ -472,24 +516,11 @@ paths:
               schema:
                 type: array
                 items: 
-                  $ref: '#/components/schemas/Item'
-        '404':
-          description: Not Found
+                  $ref: '#/components/schemas/Items'
+        '401':
+          description: Unauthorized 
         '500':
           description: Server Error
-    post:
-      tags:
-        - basket
-      summary: Commit purchase
-      responses:
-        '200':
-          description: "Success"
-        "400":
-          description: "Backet is empty"
-        '404':
-          description: "Not Found"
-        '500':
-          description: "Server Error"
        
 components:
   schemas:
@@ -499,6 +530,12 @@ components:
         price:
           type: integer
           description: Price of item
+    PatchBasket:
+      type: object
+      properties:
+        qnt:
+          type: integer
+          description: Qnt of item
     User:
       type: "object"
       properties:
@@ -520,7 +557,7 @@ components:
           type: "string"
           example: "customer"
 
-    Order:
+    Orders:
       type: "object"
       properties:
         id:
@@ -535,7 +572,7 @@ components:
         current_status:
           type: "string"
 
-    Item:
+    Items:
       type: "object"
       properties:
         id:
@@ -554,7 +591,7 @@ components:
         is_available:
           type: "boolean"
           
-    Brand:
+    Brands:
       type: "object"
       properties:
         id:
@@ -571,3 +608,4 @@ components:
         brand_owner:
           type: "string"
           example: "Phil Knight"
+
