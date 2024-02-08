@@ -22,14 +22,28 @@ import (
 	"github.com/ell1jah/db_cp/pkg/context"
 	"github.com/ell1jah/db_cp/pkg/middleware"
 	"github.com/ell1jah/db_cp/pkg/session"
-
 	"github.com/gorilla/mux"
 	"github.com/jmoiron/sqlx"
 	_ "github.com/lib/pq"
 	"go.uber.org/zap"
 )
+ 
 
 const port = ":8080"
+
+// @title           Swagger Example API
+// @version         1.0
+// @description     This is a sample server celler server.
+// @termsOfService  http://swagger.io/terms/
+
+
+// @host      localhost:8080
+// @BasePath  /api/v1
+
+// @securityDefinitions.basic  BasicAuth
+// @externalDocs.description  OpenAPI
+// @externalDocs.url          https://swagger.io/resources/open-api/
+
 
 func main() {
 	zapLogger := zap.Must(zap.NewDevelopment())
