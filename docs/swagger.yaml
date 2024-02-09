@@ -1,0 +1,61 @@
+basePath: /
+definitions:
+  models.Brand:
+    properties:
+      id:
+        type: integer
+      logo:
+        type: integer
+      name:
+        type: string
+      owner:
+        type: string
+      year:
+        type: integer
+    type: object
+externalDocs:
+  description: OpenAPI
+  url: https://swagger.io/resources/open-api/
+host: localhost:8080
+info:
+  contact: {}
+  description: WEB лабы. Как я хочу спать.....
+  title: "Clothes store \U0001F45A"
+  version: "1.337"
+paths:
+  /brands/{BRAND_ID}:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: BRAND_ID
+        in: path
+        name: BRAND_ID
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Brand'
+        "400":
+          description: f u 400
+          schema:
+            type: string
+        "401":
+          description: f u 400
+          schema:
+            type: string
+        "500":
+          description: 'f u '
+          schema:
+            type: string
+      summary: Get an information about one brand
+      tags:
+      - brands
+securityDefinitions:
+  BasicAuth:
+    type: basic
+swagger: "2.0"

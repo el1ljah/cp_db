@@ -1,0 +1,93 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "WEB лабы. Как я хочу спать.....",
+        "title": "Clothes store 👚",
+        "contact": {},
+        "version": "1.337"
+    },
+    "host": "localhost:8080",
+    "basePath": "/",
+    "paths": {
+        "/brands/{BRAND_ID}": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "brands"
+                ],
+                "summary": "Get an information about one brand",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "BRAND_ID",
+                        "name": "BRAND_ID",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Brand"
+                        }
+                    },
+                    "400": {
+                        "description": "f u 400",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "401": {
+                        "description": "f u 400",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "f u ",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "models.Brand": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "logo": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "owner": {
+                    "type": "string"
+                },
+                "year": {
+                    "type": "integer"
+                }
+            }
+        }
+    },
+    "securityDefinitions": {
+        "BasicAuth": {
+            "type": "basic"
+        }
+    },
+    "externalDocs": {
+        "description": "OpenAPI",
+        "url": "https://swagger.io/resources/open-api/"
+    }
+}
