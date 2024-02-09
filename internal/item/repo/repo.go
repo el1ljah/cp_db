@@ -137,6 +137,19 @@ func (pir *PgItemRepo) Update(item models.Item) (models.Item, error) {
 	return item, nil
 }
 
+func (pir *PgItemRepo) Patch(itemID int, price int) (models.Item, error) {
+	_, err := pir.DB.Exec(
+		"update Item "+
+			"set price = $1 "+
+			"where id = $2",
+		price, 
+		itemID)
+	if err != nil {
+		return nil, errors.Wrap(err, "can`t update table in db")
+	}
+	return Get(itemID)
+}
+
 func (pir *PgItemRepo) Delete(id int) error {
 	_, err := pir.DB.Exec(
 		"delete from Item "+

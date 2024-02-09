@@ -8,7 +8,6 @@ import (
 
 	"github.com/el1ljah/cp_db/internal/models"
 	"github.com/el1ljah/cp_db/pkg/logger"
-	"github.com/el1ljah/cp_db/pkg/httpError"
 
 	"github.com/asaskevich/govalidator"
 	"github.com/gorilla/mux"
@@ -30,10 +29,10 @@ type BrandHandler struct {
 // @Tags         brands
 // @Accept       json
 // @Produce      json
-// @Param        BRAND_ID    path	string  true  "BRAND_ID"
+// @Param        BRAND_ID    path	integer  true  "ID of brand"
 // @Success      200  {object}  models.Brand
-// @Failure      400,401  {object}  httpError.HTTPError
-// @Failure      500  {object}  httpError.HTTPError
+// @Failure      404  
+// @Failure      500  
 // @Router       /brands/{BRAND_ID} [get]
 func (bh *BrandHandler) Get(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
@@ -80,6 +79,17 @@ func (bh *BrandHandler) Get(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+// @Summary      Add new brand
+// @Tags         brands
+// @Accept       json
+// @Produce      json
+// @Param data body models.Brand true "new brand"
+// @Success      200  
+// @Failure      400
+// @Failure      401
+// @Failure      404  
+// @Failure      500  
+// @Router       /brands [put]
 func (bh *BrandHandler) Create(w http.ResponseWriter, r *http.Request) {
 	brand := &models.Brand{}
 
@@ -136,6 +146,18 @@ func (bh *BrandHandler) Create(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+// @Summary      Update brand
+// @Tags         brands
+// @Accept       json
+// @Produce      json
+// @Param        BRAND_ID    path	integer  true  "ID of update brand"
+// @Param 		 data body models.Brand true "updated brand"
+// @Success      200  
+// @Failure      400
+// @Failure      401
+// @Failure      404  
+// @Failure      500  
+// @Router       /brands/{BRAND_ID} [post]
 func (bh *BrandHandler) Update(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	brandIdString, ok := vars["BRAND_ID"]
@@ -208,6 +230,16 @@ func (bh *BrandHandler) Update(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+// @Summary      Delete brand
+// @Tags         brands
+// @Accept       json
+// @Produce      json
+// @Param        BRAND_ID    path	integer  true  "ID of deleted brand"
+// @Success      200 
+// @Failure      401
+// @Failure      404  
+// @Failure      500  
+// @Router       /brands/{BRAND_ID} [delete]
 func (bh *BrandHandler) Delete(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	brandIdString, ok := vars["BRAND_ID"]

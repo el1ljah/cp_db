@@ -9,6 +9,7 @@ import (
 type ItemRepo interface {
 	Create(models.Item) (int, error)
 	Get(int) (models.Item, error)
+	Patch(int, models.ItemsPatchPrice) (models.Item, error)
 	GetAll(models.ItemsParams) ([]models.Item, error)
 	Update(models.Item) (models.Item, error)
 	Delete(int) error
@@ -26,6 +27,15 @@ func (is ItemService) Create(item models.Item) (int, error) {
 	}
 
 	return id, nil
+}
+
+func (is ItemService) Patch(id int, price models.ItemsPatchPrice) (models.Item, error) {
+	item, err := is.ItemRepo.Patch(id, price.Price)
+	if err != nil {
+		return -1, errors.Wrap(err, "can`t add to repo")
+	}
+
+	return item, nil
 }
 
 func (is ItemService) Get(id int) (models.Item, error) {

@@ -17,6 +17,10 @@ const (
 	ItemsOrderAsc  = "asc"
 )
 
+type ItemsPatchPrice struct {
+	Price       int    `valid:"-" json:"price" db:"price"`
+}
+
 type ItemsParams struct {
 	Category string `valid:"in(ботинки|кроссовки|майка|футболка|куртка|штаны|шорты|ремень|шляпа|any)" json:"category"`
 	Sex      string `valid:"in(male|female|any)" json:"sex"`
