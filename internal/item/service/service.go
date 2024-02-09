@@ -30,7 +30,7 @@ func (is ItemService) Create(item models.Item) (int, error) {
 }
 
 func (is ItemService) Patch(id int, price models.ItemsPatchPrice) (models.Item, error) {
-	_, err := is.ItemRepo.Patch(id, price.NewPrice)
+	err := is.ItemRepo.Patch(id, price.NewPrice)
 	if err != nil {
 		return errors.Wrap(err, "can`t add to repo")
 	}
