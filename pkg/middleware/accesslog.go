@@ -5,7 +5,7 @@ import (
 
 	"time"
 
-	"github.com/ell1jah/db_cp/pkg/logger"
+	"github.com/el1ljah/cp_db/pkg/logger"
 )
 
 func AccessLog(logger logger.Logger, next http.Handler) http.Handler {

@@ -3,8 +3,8 @@ package repo
 import (
 	"fmt"
 
-	"github.com/ell1jah/db_cp/internal/models"
-	"github.com/ell1jah/db_cp/pkg/logger"
+	"github.com/el1ljah/cp_db/internal/models"
+	"github.com/el1ljah/cp_db/pkg/logger"
 	"github.com/jmoiron/sqlx"
 	"github.com/pkg/errors"
 )
