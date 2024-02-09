@@ -24,7 +24,7 @@ import (
 	"github.com/el1ljah/cp_db/pkg/session"
 	"github.com/gorilla/mux"
 	"github.com/swaggo/http-swagger"
-	//_ "github.com/el1ljah/cp_db/docs/" 
+	_ "github.com/el1ljah/cp_db/docs" 
 	"github.com/jmoiron/sqlx"
 	_ "github.com/lib/pq"
 	"go.uber.org/zap"
@@ -32,14 +32,12 @@ import (
 
 const port = ":8080"
 
-// @title           Swagger Example API
-// @version         1.0
-// @description     This is a sample server celler server.
-// @termsOfService  http://swagger.io/terms/
-
+// @title           Clothes store 👚
+// @version         1.337
+// @description     WEB лабы. Как я хочу спать.....
 
 // @host      localhost:8080
-// @BasePath  /api/v1
+// @BasePath  /
 
 // @securityDefinitions.basic  BasicAuth
 // @externalDocs.description  OpenAPI

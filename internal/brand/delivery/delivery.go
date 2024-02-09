@@ -8,6 +8,7 @@ import (
 
 	"github.com/el1ljah/cp_db/internal/models"
 	"github.com/el1ljah/cp_db/pkg/logger"
+	"github.com/el1ljah/cp_db/pkg/httpError"
 
 	"github.com/asaskevich/govalidator"
 	"github.com/gorilla/mux"
@@ -25,6 +26,15 @@ type BrandHandler struct {
 	Logger       logger.Logger
 }
 
+// @Summary      Get an information about one brand
+// @Tags         brands
+// @Accept       json
+// @Produce      json
+// @Param        BRAND_ID    path	string  true  "BRAND_ID"
+// @Success      200  {object}  models.Brand
+// @Failure      400,401  {object}  httpError.HTTPError
+// @Failure      500  {object}  httpError.HTTPError
+// @Router       /brands/{BRAND_ID} [get]
 func (bh *BrandHandler) Get(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	brandIdString, ok := vars["BRAND_ID"]
