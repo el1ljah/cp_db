@@ -1,4 +1,4 @@
-module github.com/ell1jah/db_cp
+module github.com/el1ljah/cp_db
 
 go 1.21
 
