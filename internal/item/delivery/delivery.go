@@ -366,6 +366,7 @@ func (ih *ItemHandler) Patch(w http.ResponseWriter, r *http.Request) {
 	}
 
 	PatchItem := &models.ItemsPatchPrice{}
+	item := &models.Item{}
 	body, err := io.ReadAll(r.Body)
 	r.Body.Close()
 	if err != nil {
