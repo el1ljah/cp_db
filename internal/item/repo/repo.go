@@ -147,7 +147,7 @@ func (pir *PgItemRepo) Patch(itemID int, price int) (models.Item, error) {
 	if err != nil {
 		return nil, errors.Wrap(err, "can`t update table in db")
 	}
-	return Get(itemID)
+	return models.Item{}, nil
 }
 
 func (pir *PgItemRepo) Delete(id int) error {

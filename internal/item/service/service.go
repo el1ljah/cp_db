@@ -30,12 +30,12 @@ func (is ItemService) Create(item models.Item) (int, error) {
 }
 
 func (is ItemService) Patch(id int, price models.ItemsPatchPrice) (models.Item, error) {
-	item, err := is.ItemRepo.Patch(id, price.newPrice)
+	_, err := is.ItemRepo.Patch(id, price.NewPrice)
 	if err != nil {
-		return -1, errors.Wrap(err, "can`t add to repo")
+		return models.Item{}, errors.Wrap(err, "can`t add to repo")
 	}
 
-	return item, nil
+	return models.Item{}, nil
 }
 
 func (is ItemService) Get(id int) (models.Item, error) {

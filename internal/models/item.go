@@ -18,7 +18,7 @@ const (
 )
 
 type ItemsPatchPrice struct {
-	newPrice       int    `valid:"-" json:"price" db:"price"`
+	NewPrice       int    `valid:"-" json:"price" db:"price"`
 }
 
 type ItemsParams struct {
