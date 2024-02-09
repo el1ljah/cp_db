@@ -23,11 +23,12 @@ import (
 	"github.com/ell1jah/db_cp/pkg/middleware"
 	"github.com/ell1jah/db_cp/pkg/session"
 	"github.com/gorilla/mux"
+	"github.com/swaggo/http-swagger"
+	_ "github.com/el1ljah/cp_db/docs" 
 	"github.com/jmoiron/sqlx"
 	_ "github.com/lib/pq"
 	"go.uber.org/zap"
 )
- 
 
 const port = ":8080"
 
@@ -124,6 +125,8 @@ func main() {
 	}
 
 	r := mux.NewRouter()
+
+	r.PathPrefix("/swagger/").Handler(httpSwagger.WrapHandler)
 
 	r.HandleFunc("/register", userHandler.Register).Methods("POST")
 	r.HandleFunc("/login", userHandler.Login).Methods("POST")
