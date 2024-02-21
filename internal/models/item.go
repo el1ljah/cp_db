@@ -22,8 +22,10 @@ type ItemsPatchPrice struct {
 }
 
 type ItemsParams struct {
-	Category string `valid:"in(ботинки|кроссовки|майка|футболка|куртка|штаны|шорты|ремень|шляпа|any)" json:"category"`
-	Sex      string `valid:"in(male|female|any)" json:"sex"`
-	Brand    int    `valid:"-" json:"brand"`
-	Order    string `valid:"in(asc|desc|any)" json:"order"`
+	WhereCategory string `valid:"in(ботинки|кроссовки|майка|футболка|куртка|штаны|шорты|ремень|шляпа|any)" json:"WhereCategory" schema:"WhereCategory" example:"ботинки|кроссовки|майка|футболка|куртка|штаны|шорты|ремень|шляпа|any"`
+	WhereSex      string `valid:"in(male|female|any)" json:"WhereSex" schema:"WhereSex" example:"male|female|any"`
+	WhereBrand    int    `valid:"-" json:"WhereBrand" schema:"WhereBrand" example:1`
+	OrderBy    string `valid:"in(asc|desc|any)" json:"OrderBy" schema:"OrderBy" example:"asc|desc|any"`
+	Page_size int	`valid:"-" json:"Page_size" schema:"Page_size" example:50`
+	Page_num int	`valid:"-" json:"Page_num"  schema:"Page_num" example:1`
 }

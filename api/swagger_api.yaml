@@ -186,18 +186,42 @@ paths:
         - items
       summary: Get all items
       parameters:
-        - name: page_size
+        - name: Size
           in: query
           description: 'Page size'
           required: true
           schema:
             type: integer
-        - name: page_num
+        - name: Page
           in: query
           description: 'Number of page'
           required: true
           schema:
             type: integer
+        - name: Category
+          in: query
+          description: 'Category'
+          required: false
+          schema:
+            type: string
+        - name: Sex
+          in: query
+          description: 'Sex'
+          required: false
+          schema:
+            type: string
+        - name: Brand
+          in: query
+          description: 'Brand'
+          required: false
+          schema:
+            type: integer
+        - name: Order
+          in: query
+          description: 'Order'
+          required: false
+          schema:
+            type: string
       responses:
         '200':
           description: Success
@@ -476,22 +500,6 @@ paths:
           description: Not Found
         '500':
           description: Server Error
-    patch:
-      tags:
-        - basket
-      summary: Update items qnt in basket
-      parameters:
-        - name: ITEM_ID
-          in: "path"
-          description: "Id of the item"
-          required: true
-          schema:
-            type: "integer"
-      requestBody:
-        content:
-          "application/json":
-            schema:
-              $ref: '#/components/schemas/PatchBasket'
       responses:
         "200":
           description: Success

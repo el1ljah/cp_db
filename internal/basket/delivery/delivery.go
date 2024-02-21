@@ -14,7 +14,6 @@ import (
 
 type BasketService interface {
 	Get(int) (models.Basket, error)
-	Commit(int) error
 	AddItem(int, int) error
 	DecItem(int, int) error
 }
@@ -29,6 +28,17 @@ type BasketHandler struct {
 	ContextManager ContextManager
 }
 
+// @Summary      Get all items in basket
+// @Tags         basket
+// @Accept       json
+// @Produce      json
+// @Success      200  {object}  models.Basket
+// @Failure      400
+// @Failure      401
+// @Failure      403  
+// @Failure      500  
+// @Security ApiKeyAuth
+// @Router       /basket [get]
 func (bh *BasketHandler) Get(w http.ResponseWriter, r *http.Request) {
 	userID, err := bh.ContextManager.UserIDFromContext(r.Context())
 	if err != nil {
@@ -66,34 +76,17 @@ func (bh *BasketHandler) Get(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func (bh *BasketHandler) Commit(w http.ResponseWriter, r *http.Request) {
-	userID, err := bh.ContextManager.UserIDFromContext(r.Context())
-	if err != nil {
-		bh.Logger.Errorw("fail to get id from context",
-			"err:", err.Error())
-		http.Error(w, "unknown error", http.StatusInternalServerError)
-		return
-	}
-
-	err = bh.BasketService.Commit(userID)
-	if err != nil {
-		bh.Logger.Infow("can`t commit basket",
-			"err:", err.Error())
-		http.Error(w, "can`t commit basket", http.StatusBadRequest)
-		return
-	}
-
-	w.WriteHeader(http.StatusOK)
-
-	_, err = w.Write([]byte("success"))
-	if err != nil {
-		bh.Logger.Errorw("can`t write response",
-			"err:", err.Error())
-		http.Error(w, "can`t write response", http.StatusInternalServerError)
-		return
-	}
-}
-
+// @Summary      Add item to basket
+// @Tags         basket
+// @Accept       json
+// @Produce      json
+// @Param        ITEM_ID    path	integer  true  "ID of item adding to basket"
+// @Success      200  
+// @Failure      401  
+// @Failure      404  
+// @Failure      500  
+// @Security ApiKeyAuth
+// @Router       /basket/{ITEM_ID} [post]
 func (bh *BasketHandler) AddItem(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	itemIdString, ok := vars["ITEM_ID"]
@@ -121,9 +114,9 @@ func (bh *BasketHandler) AddItem(w http.ResponseWriter, r *http.Request) {
 
 	err = bh.BasketService.AddItem(itemId, userID)
 	if err != nil {
-		bh.Logger.Infow("can`t add item to basket",
+		bh.Logger.Infow("can`t add item to basket (item is not available)",
 			"err:", err.Error())
-		http.Error(w, "can`t add item to basket", http.StatusBadRequest)
+		http.Error(w, "can`t add item to basket (item is not available)", http.StatusBadRequest)
 		return
 	}
 
@@ -138,6 +131,17 @@ func (bh *BasketHandler) AddItem(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+// @Summary      Remove item from basket
+// @Tags         basket
+// @Accept       json
+// @Produce      json
+// @Param        ITEM_ID    path	integer  true  "ID of item removing from basket"
+// @Success      200  
+// @Failure      401  
+// @Failure      404  
+// @Failure      500  
+// @Security ApiKeyAuth
+// @Router       /basket/{ITEM_ID} [delete]
 func (bh *BasketHandler) DecItem(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	itemIdString, ok := vars["ITEM_ID"]

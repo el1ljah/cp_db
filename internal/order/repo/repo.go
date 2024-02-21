@@ -12,6 +12,24 @@ type PgOrderRepo struct {
 	DB     *sqlx.DB
 }
 
+func (pbr *PgOrderRepo) Commit(id int) error {
+	var res int
+
+	err := pbr.DB.Get(&res,
+		"SELECT CommitOrder($1)", id)
+	if err != nil {
+		return errors.Wrap(err, "can`t commit order in db")
+	}
+
+	if res == 1 {
+		return errors.Errorf("can`t commit order (its empty)")
+	} else if res == 2 {
+		return errors.Errorf("can`t commit order (some items are not available)")
+	}
+
+	return nil
+}
+
 func (por *PgOrderRepo) Get(id int) (models.Order, error) {
 	order := models.Order{}
 

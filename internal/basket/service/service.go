@@ -8,7 +8,6 @@ import (
 
 type BasketRepo interface {
 	Get(int) (models.Basket, error)
-	Commit(int) error
 	AddItem(int, int) error
 	DecItem(int, int) error
 }
@@ -25,15 +24,6 @@ func (bs BasketService) Get(id int) (models.Basket, error) {
 	}
 
 	return basket, nil
-}
-
-func (bs BasketService) Commit(id int) error {
-	err := bs.BasketRepo.Commit(id)
-	if err != nil {
-		return errors.Wrap(err, "can`t commit in repo")
-	}
-
-	return nil
 }
 
 func (bs BasketService) AddItem(itemID, userID int) error {

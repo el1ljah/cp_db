@@ -36,7 +36,6 @@ func (am *AuthManager) Auth(next http.Handler, roles ...string) http.Handler {
 			http.Error(w, "no auth", http.StatusUnauthorized)
 			return
 		}
-
 		userID, userRole, err := am.SessionManager.GetUser(token)
 		if err != nil {
 			am.Logger.Infow("authoriztion",

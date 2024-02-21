@@ -11,6 +11,10 @@ type Order struct {
 	Status string      `valid:"-" json:"status" db:"current_status"`
 }
 
+type orderUser struct {
+	User_ID int	`valid:"-" json:"User_ID"  schema:"User_ID" example:1`
+}
+
 func NewOrder() *Order {
 	return &Order{
 		Items: []OrderItem{},

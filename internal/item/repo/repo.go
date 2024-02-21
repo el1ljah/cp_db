@@ -56,14 +56,14 @@ func (pir *PgItemRepo) genGetAllQuery(params models.ItemsParams) string {
 	base := "select * from Item"
 	conds := []string{}
 
-	if params.Brand > 0 {
-		conds = append(conds, fmt.Sprintf("brand_id = %d", params.Brand))
+	if params.WhereBrand > 0 {
+		conds = append(conds, fmt.Sprintf("brand_id = %d", params.WhereBrand))
 	}
-	if params.Category != models.ItemsParamsAny {
-		conds = append(conds, fmt.Sprintf("category = '%s'", params.Category))
+	if params.WhereCategory != models.ItemsParamsAny && params.WhereCategory != ""{
+		conds = append(conds, fmt.Sprintf("category = '%s'", params.WhereCategory))
 	}
-	if params.Sex != models.ItemsParamsAny {
-		conds = append(conds, fmt.Sprintf("sex = '%s'", params.Sex))
+	if params.WhereSex != models.ItemsParamsAny && params.WhereSex != "" {
+		conds = append(conds, fmt.Sprintf("sex = '%s'", params.WhereSex))
 	}
 
 	if len(conds) != 0 {
@@ -76,13 +76,16 @@ func (pir *PgItemRepo) genGetAllQuery(params models.ItemsParams) string {
 		base += " " + conds[len(conds)-1]
 	}
 
-	if params.Order != models.ItemsParamsAny {
+	if params.OrderBy != models.ItemsParamsAny {
 		base += " order by price"
 
-		if params.Order == models.ItemsOrderDesc {
+		if params.OrderBy == models.ItemsOrderDesc {
 			base += " desc"
 		}
 	}
+	base += fmt.Sprintf(" limit %d offset %d", params.Page_size, params.Page_num)
+
+	
 
 	return base
 }
@@ -137,7 +140,7 @@ func (pir *PgItemRepo) Update(item models.Item) (models.Item, error) {
 	return item, nil
 }
 
-func (pir *PgItemRepo) Patch(itemID int, price int) (error) {
+func (pir *PgItemRepo) Patch(itemID int, price int) error {
 	_, err := pir.DB.Exec(
 		"update Item "+
 			"set price = $1 "+

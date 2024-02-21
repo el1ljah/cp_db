@@ -39,11 +39,16 @@ const port = ":8080"
 // @host      localhost:8080
 // @BasePath  /
 
-// @securityDefinitions.basic  BasicAuth
+// @securityDefinitions.apikey ApiKeyAuth
+// @in header
+// @name Authorization
 // @externalDocs.description  OpenAPI
 // @externalDocs.url          https://swagger.io/resources/open-api/
 
-
+// @tag.name authentication
+// @tag.name items
+// @tag.name brands
+// @tag.name basket
 func main() {
 	zapLogger := zap.Must(zap.NewDevelopment())
 	logger := zapLogger.Sugar()
@@ -142,13 +147,13 @@ func main() {
 	r.HandleFunc("/items", http.HandlerFunc(itemHandler.GetAll)).Methods("GET")
 
 	r.Handle("/basket", authManager.Auth(http.HandlerFunc(basketHandler.Get), "user", "admin")).Methods("GET")
-	r.Handle("/basket", authManager.Auth(http.HandlerFunc(basketHandler.Commit), "user", "admin")).Methods("POST")
-	r.Handle("/basket/add/{ITEM_ID}", authManager.Auth(http.HandlerFunc(basketHandler.AddItem), "user", "admin")).Methods("POST")
-	r.Handle("/basket/dec/{ITEM_ID}", authManager.Auth(http.HandlerFunc(basketHandler.DecItem), "user", "admin")).Methods("POST")
+	r.Handle("/basket/{ITEM_ID}", authManager.Auth(http.HandlerFunc(basketHandler.AddItem), "user", "admin")).Methods("POST")
+	r.Handle("/basket/{ITEM_ID}", authManager.Auth(http.HandlerFunc(basketHandler.DecItem), "user", "admin")).Methods("DELETE")
 
-	r.Handle("/order/{ORDER_ID:[0-9]+}", authManager.Auth(http.HandlerFunc(orderHandler.Get), "admin")).Methods("GET")
-	r.Handle("/order/{ORDER_ID:[0-9]+}", authManager.Auth(http.HandlerFunc(orderHandler.Update), "admin")).Methods("POST")
-	r.Handle("/orders/my", authManager.Auth(http.HandlerFunc(orderHandler.GetAllMy), "user", "admin")).Methods("GET")
+	r.Handle("/orders", authManager.Auth(http.HandlerFunc(orderHandler.Commit), "user", "admin")).Methods("POST")
+	r.Handle("/orders/{ORDER_ID:[0-9]+}", authManager.Auth(http.HandlerFunc(orderHandler.Get), "admin")).Methods("GET")
+	r.Handle("/orders/{ORDER_ID:[0-9]+}", authManager.Auth(http.HandlerFunc(orderHandler.Update), "admin")).Methods("POST")
+	//r.Handle("/orders/my", authManager.Auth(http.HandlerFunc(orderHandler.GetAllMy), "user", "admin")).Methods("GET")
 	r.Handle("/orders", authManager.Auth(http.HandlerFunc(orderHandler.GetAll), "admin")).Methods("GET")
 
 

@@ -7,6 +7,7 @@ import (
 )
 
 type OrderRepo interface {
+	Commit(int) error
 	Get(int) (models.Order, error)
 	GetUsersAll(int) ([]models.Order, error)
 	GetAll() ([]models.Order, error)
@@ -25,6 +26,15 @@ func (os OrderService) Get(id int) (models.Order, error) {
 	}
 
 	return order, nil
+}
+
+func (bs OrderService) Commit(id int) error  {
+	err := bs.OrderRepo.Commit(id)
+	if err != nil {
+		return errors.Wrap(err, "can`t commit in repo")
+	}
+
+	return  nil
 }
 
 func (os OrderService) GetUsersAll(user int) ([]models.Order, error) {

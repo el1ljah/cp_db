@@ -89,6 +89,7 @@ func (bh *BrandHandler) Get(w http.ResponseWriter, r *http.Request) {
 // @Failure      401
 // @Failure      404  
 // @Failure      500  
+// @Security ApiKeyAuth
 // @Router       /brands [put]
 func (bh *BrandHandler) Create(w http.ResponseWriter, r *http.Request) {
 	brand := &models.Brand{}
@@ -157,6 +158,7 @@ func (bh *BrandHandler) Create(w http.ResponseWriter, r *http.Request) {
 // @Failure      401
 // @Failure      404  
 // @Failure      500  
+// @Security ApiKeyAuth
 // @Router       /brands/{BRAND_ID} [post]
 func (bh *BrandHandler) Update(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
@@ -239,6 +241,7 @@ func (bh *BrandHandler) Update(w http.ResponseWriter, r *http.Request) {
 // @Failure      401
 // @Failure      404  
 // @Failure      500  
+// @Security ApiKeyAuth
 // @Router       /brands/{BRAND_ID} [delete]
 func (bh *BrandHandler) Delete(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)

@@ -54,27 +54,15 @@ func (pbr *PgBasketRepo) Get(id int) (models.Basket, error) {
 	return *basket, nil
 }
 
-func (pbr *PgBasketRepo) Commit(id int) error {
-	var res int
-
-	err := pbr.DB.Get(&res,
-		"SELECT CommitOrder($1)", id)
-	if err != nil {
-		return errors.Wrap(err, "can`t commit basket in db")
-	}
-
-	if res == 1 {
-		return errors.Errorf("can`t commit basket (its empty)")
-	} else if res == 2 {
-		return errors.Errorf("can`t commit basket (some items are available)")
-	}
-
-	return nil
-}
 
 func (pbr *PgBasketRepo) AddItem(itemID, userID int) error {
-	_, err := pbr.DB.Exec(
+	var succ bool
+	err := pbr.DB.Get(
+		&succ,
 		"SELECT AddItemUsersBasket($1, $2, $3)", itemID, userID, 1)
+	if !succ {
+		return errors.Wrap(err, "Item is not available")
+	}
 	if err != nil {
 		return errors.Wrap(err, "can`t add item in basket in db")
 	}

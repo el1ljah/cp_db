@@ -24,23 +24,19 @@ create table public.Item(
   sex text not null, 
   image_id int not null, 
   brand_id int not null, 
-  foreign key (brand_id) references public.Brand(id), 
   is_available boolean
 );
 create table public.Ordering(
   id serial not null primary key, 
   commit_date date, 
   user_id int not null, 
-  foreign key (user_id) references public.webUser(user_id), 
   price int check (price > 0), 
   current_status text not null
 );
 create table public.OrderItems(
   id serial not null primary key, 
   order_id int not null, 
-  foreign key (order_id) references public.Ordering(id), 
   item_id int not null, 
-  foreign key (item_id) references public.Item(id), 
   amount int not null check (amount > 0)
 );
 set 

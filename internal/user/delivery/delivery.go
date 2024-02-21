@@ -35,6 +35,17 @@ type UserHandler struct {
 	Sessions    SessionManager
 }
 
+// @Summary      Registration
+// @Tags         authentication
+// @Accept       json
+// @Produce      json
+// @Param        registerForm    body	models.User  true  "Registration"
+// @Success      200  
+// @Failure      400
+// @Failure      401
+// @Failure      404  
+// @Failure      500  
+// @Router       /register [post]
 func (uh *UserHandler) Register(w http.ResponseWriter, r *http.Request) {
 	user := &models.User{}
 
@@ -107,6 +118,17 @@ func (uh *UserHandler) Register(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+// @Summary      Log in
+// @Tags         authentication
+// @Accept       json
+// @Produce      json
+// @Param        loginForm    body	loginForm  true  "Login form"
+// @Success      200  
+// @Failure      400
+// @Failure      401
+// @Failure      404  
+// @Failure      500  
+// @Router       /login [post]
 func (uh *UserHandler) Login(w http.ResponseWriter, r *http.Request) {
 	regForm := &loginForm{}
 
